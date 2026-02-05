@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CA Lottery Scratcher Value Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">Scratcher Analyzer</a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Calculator</a>
+                <a href="scratchers.html">All Scratchers</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>California Lottery Scratcher EV Calculator</h1>
+            <p>Paste a scratcher game URL or enter game data to calculate the expected value of a ticket under current prize conditions.</p>
+        </section>
+
+        <section class="input-section card">
+            <h2>Game Input</h2>
+            <div class="input-group">
+                <label for="game-url">Scratcher Game URL</label>
+                <div class="url-row">
+                    <input type="text" id="game-url" placeholder="https://www.calottery.com/scratchers/..." />
+                    <button id="fetch-btn" class="btn btn-primary">Fetch &amp; Analyze</button>
+                </div>
+                <small class="help-text">Paste a California Lottery scratcher game page URL</small>
+            </div>
+            <div class="divider"><span>or enter data manually</span></div>
+            <div class="manual-input">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="game-name">Game Name</label>
+                        <input type="text" id="game-name" placeholder="e.g. 200X Scratchers" />
+                    </div>
+                    <div class="input-group">
+                        <label for="game-number">Game Number</label>
+                        <input type="text" id="game-number" placeholder="e.g. 1234" />
+                    </div>
+                    <div class="input-group">
+                        <label for="ticket-price">Ticket Price ($)</label>
+                        <input type="number" id="ticket-price" min="1" step="1" placeholder="e.g. 20" />
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="claimed-odds">Claimed Overall Odds</label>
+                        <input type="text" id="claimed-odds" placeholder="e.g. 1 in 3.49" />
+                    </div>
+                    <div class="input-group">
+                        <label for="claimed-cash-odds">Claimed Cash Odds</label>
+                        <input type="text" id="claimed-cash-odds" placeholder="e.g. 1 in 4.25" />
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Prize Tiers <button id="add-tier-btn" class="btn btn-small">+ Add Tier</button></label>
+                    <div id="tier-container">
+                        <!-- Tier rows added dynamically -->
+                    </div>
+                </div>
+                <button id="calc-btn" class="btn btn-primary">Calculate EV</button>
+            </div>
+        </section>
+
+        <section class="options-section card">
+            <h2>Modeling Options</h2>
+            <div class="options-row">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="ignore-under-500" />
+                    Ignore prizes under $500 (set to $0 in EV)
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="apply-tax" />
+                    Apply tax rate:
+                    <input type="number" id="tax-rate" value="24" min="0" max="100" step="1" class="inline-input" />%
+                </label>
+            </div>
+        </section>
+
+        <section id="results-section" class="results-section card" style="display:none;">
+            <h2>Results</h2>
+            <div id="metadata" class="metadata-grid">
+                <!-- Filled by JS -->
+            </div>
+            <div class="ev-result" id="ev-result">
+                <!-- EV display -->
+            </div>
+            <h3>Reconstructed Prize Table</h3>
+            <div class="table-wrapper">
+                <table id="prize-table">
+                    <thead>
+                        <tr>
+                            <th>Prize</th>
+                            <th>Odds Text</th>
+                            <th>Remaining</th>
+                            <th>Original Total</th>
+                            <th>Parsed N</th>
+                            <th>Tier Ticket Est.</th>
+                            <th>Tier Probability</th>
+                            <th>Adjusted Value</th>
+                            <th>EV Contribution</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prize-table-body">
+                    </tbody>
+                </table>
+            </div>
+            <div id="math-example" class="math-example card">
+                <!-- Math example -->
+            </div>
+        </section>
+
+        <section id="error-section" class="error-section card" style="display:none;">
+            <h2>Error</h2>
+            <p id="error-message"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>For educational and informational purposes only. Not affiliated with the California Lottery.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

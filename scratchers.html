@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Scratchers — CA Lottery Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">Scratcher Analyzer</a>
+            <div class="nav-links">
+                <a href="index.html">Calculator</a>
+                <a href="scratchers.html" class="active">All Scratchers</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>Scratcher Overview &amp; Comparison</h1>
+            <p>Compare expected values across all available California Lottery scratchers. Claimed EV reflects launch-state conditions; calculated EV uses current remaining prize data.</p>
+        </section>
+
+        <section class="card">
+            <h2>Modeling Options</h2>
+            <div class="options-row">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="ignore-under-500" />
+                    Ignore prizes under $500
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="apply-tax" />
+                    Apply tax rate:
+                    <input type="number" id="tax-rate" value="24" min="0" max="100" step="1" class="inline-input" />%
+                </label>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Data Source</h2>
+            <p class="help-text" style="margin-bottom:0.75rem;">
+                Paste the JSON array of scratcher game data below. Each game object should contain:
+                <code>name</code>, <code>number</code>, <code>price</code>, <code>claimedOdds</code>,
+                and a <code>tiers</code> array with <code>{ value, odds, remaining, total }</code> per tier.
+            </p>
+            <div class="input-group">
+                <label for="json-input">Game Data (JSON)</label>
+                <textarea id="json-input" rows="6" style="width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);padding:0.75rem;font-family:monospace;font-size:0.82rem;resize:vertical;" placeholder='[{"name":"Cash Crush","number":"1712","price":5,"claimedOdds":"1 in 4.53","tiers":[{"value":250000,"odds":1219589,"remaining":14,"total":14},{"value":10000,"odds":588767,"remaining":29,"total":29},...]}]'></textarea>
+            </div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <button id="load-json-btn" class="btn btn-primary">Load &amp; Analyze</button>
+                <button id="load-sample-btn" class="btn btn-small">Load Sample Data</button>
+            </div>
+        </section>
+
+        <section id="results-section" class="card" style="display:none;">
+            <h2>All Scratchers <span id="game-count" class="help-text"></span></h2>
+            <div class="table-wrapper">
+                <table id="scratchers-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-key="price">Price <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="name">Game <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="number">Number <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="claimedOddsVal">Claimed Odds <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="calcOddsVal">Calc Odds <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="claimedEV">Claimed EV <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="calcEV">Calc EV <span class="sort-arrow"></span></th>
+                            <th class="sortable" data-key="deltaPercent">EV Delta <span class="sort-arrow"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="scratchers-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="error-section" class="error-section card" style="display:none;">
+            <h2>Error</h2>
+            <p id="error-message"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>For educational and informational purposes only. Not affiliated with the California Lottery.</p>
+    </footer>
+
+    <script src="scratchers.js"></script>
+</body>
+</html>
